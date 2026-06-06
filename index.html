@@ -1,90 +1,744 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auto Canva</title>
-  <style>
-    :root {
-      --bg: #0e1116;
-      --card: #161b22;
-      --accent: #00c4cc;
-      --accent2: #7d2ae8;
-      --text: #e6edf3;
-      --muted: #9aa7b4;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at 20% 10%, #1a2230 0%, var(--bg) 55%);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid #232c38;
-      border-radius: 20px;
-      padding: 56px 48px;
-      max-width: 640px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
-    }
-    .badge {
-      display: inline-block;
-      font-size: 13px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid rgba(0,196,204,0.35);
-      padding: 6px 14px;
-      border-radius: 999px;
-      margin-bottom: 24px;
-    }
-    h1 {
-      font-size: 52px;
-      line-height: 1.05;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 18px;
-    }
-    p.lead {
-      font-size: 19px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 36px;
-    }
-    .cta {
-      display: inline-block;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 14px 30px;
-      border-radius: 12px;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-    .cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(125,42,232,0.4); }
-    footer {
-      margin-top: 40px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude + Canva Social Media Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral:    #F44B3C;
+    --gold:     #F4A73C;
+    --cream:    #FAF6EF;
+    --ink:      #1A1208;
+    --ink-soft: #4A3D2E;
+    --mist:     #EDE8DF;
+    --white:    #FFFFFF;
+    --step-bg:  #FFF9F0;
+    --code-bg:  #1A1208;
+    --accent-green: #2E7D55;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ────────────────────────────────────────────── */
+  .hero {
+    background: var(--ink);
+    color: var(--white);
+    padding: 80px 40px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 20%, rgba(244,167,60,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 10% 90%, rgba(244,75,60,0.15) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--coral);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 3px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.72);
+    max-width: 560px;
+    font-family: 'Lora', serif;
+    font-style: italic;
+  }
+
+  .hero-meta {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .author-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 100px;
+    padding: 6px 16px 6px 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .author-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--coral), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .hero-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── LAYOUT ──────────────────────────────────────────── */
+  .content {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  /* ── INTRO BLOCK ─────────────────────────────────────── */
+  .intro {
+    border-left: 3px solid var(--gold);
+    padding: 32px 0 32px 32px;
+    margin: 60px 0 56px;
+  }
+
+  .intro p {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .intro p + p { margin-top: 14px; }
+
+  /* ── SECTION HEADINGS ────────────────────────────────── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+    margin-top: 64px;
+  }
+
+  .section-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--coral);
+    background: rgba(244,75,60,0.09);
+    border: 1px solid rgba(244,75,60,0.2);
+    border-radius: 3px;
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--mist);
+  }
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 36px 0 14px;
+  }
+
+  p { margin-bottom: 18px; }
+
+  /* ── STEP CARDS ──────────────────────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 20px; margin: 8px 0; }
+
+  .step {
+    background: var(--step-bg);
+    border: 1px solid var(--mist);
+    border-radius: 12px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0 20px;
+    align-items: start;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .step:hover {
+    border-color: rgba(244,167,60,0.4);
+    box-shadow: 0 4px 20px rgba(244,75,60,0.06);
+  }
+
+  .step-n {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-body { min-width: 0; }
+
+  .step-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .step-desc {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin: 0;
+    font-family: 'Lora', serif;
+  }
+
+  /* ── PROMPT BLOCKS ───────────────────────────────────── */
+  .prompt-block {
+    background: var(--code-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 28px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  }
+
+  .prompt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .prompt-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .copy-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .prompt-body {
+    padding: 24px 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.88);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .prompt-body .placeholder {
+    color: var(--gold);
+    background: rgba(244,167,60,0.12);
+    border-radius: 3px;
+    padding: 0 4px;
+  }
+
+  .prompt-body .comment {
+    color: rgba(255,255,255,0.35);
+    font-style: italic;
+  }
+
+  /* ── TIP CALLOUT ─────────────────────────────────────── */
+  .tip {
+    background: rgba(46,125,85,0.07);
+    border: 1px solid rgba(46,125,85,0.22);
+    border-left: 3px solid var(--accent-green);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    font-family: 'Lora', serif;
+  }
+
+  .tip strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-green);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* ── WARNING CALLOUT ─────────────────────────────────── */
+  .warn {
+    background: rgba(244,167,60,0.07);
+    border: 1px solid rgba(244,167,60,0.25);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    font-family: 'Lora', serif;
+  }
+
+  .warn strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9A6800;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* ── WHAT YOU GET GRID ───────────────────────────────── */
+  .output-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .output-card {
+    background: var(--white);
+    border: 1px solid var(--mist);
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .output-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: -2px;
+  }
+
+  /* ── DIVIDER ─────────────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--mist), transparent);
+    margin: 60px 0;
+  }
+
+  /* ── FOOTER ──────────────────────────────────────────── */
+  .footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.45);
+    padding: 48px 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .footer a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .footer-logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── INLINE CODE ─────────────────────────────────────── */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    background: rgba(244,75,60,0.08);
+    color: var(--coral);
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+
+  /* ── CONNECTOR NOTE ──────────────────────────────────── */
+  .connector-note {
+    background: var(--white);
+    border: 1px solid var(--mist);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 28px 0;
+  }
+
+  .connector-note ul {
+    list-style: none;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .connector-note li {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-family: 'Lora', serif;
+    padding-left: 22px;
+    position: relative;
+  }
+
+  .connector-note li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--coral);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+  }
+
+  /* ── RESPONSIVE ──────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .hero { padding: 56px 24px 52px; }
+    .content { padding: 0 24px 80px; }
+    .step { grid-template-columns: 40px 1fr; padding: 22px 20px; }
+    .prompt-body { font-size: 12px; padding: 18px; }
+  }
+</style>
 </head>
 <body>
-  <main class="card">
-    <span class="badge">Coming Soon</span>
-    <h1>Auto Canva</h1>
-    <p class="lead">Automating beautiful design, the easy way. This page is the home base for the project — more is on the way.</p>
-    <a class="cta" href="#">Stay Tuned</a>
-    <footer>Built by Doc Rock &middot; Powered by GitHub Pages</footer>
-  </main>
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="badge">Summer School Playbook</div>
+    <h1>Claude + Canva:<br><em>Social Media</em> on Autopilot</h1>
+    <p class="hero-sub">A step-by-step guide to connecting Claude to Canva and generating carousels, fake-tweet posts, and any social graphic from a template — without touching a design tool.</p>
+    <div class="hero-meta">
+      <div class="author-chip">
+        <div class="author-dot">DR</div>
+        Doc Rock
+      </div>
+      <span class="hero-tag">youtube.com/@docrock &nbsp;·&nbsp; AI Summer School</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────────── -->
+<main class="content">
+
+  <div class="intro">
+    <p>This guide walks you through exactly what Doc Rock uses to turn a single Canva template into ten (or a hundred) finished social posts in a single session — no design skills required.</p>
+    <p>Two prompts do most of the work. Everything below is the setup that makes those prompts possible.</p>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section-label">
+    <span class="section-num">Step 01</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Connect Canva to Claude</h2>
+  <p>Before Claude can touch your designs, you need to authorize the Canva connector. This is a one-time setup that takes about two minutes.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-body">
+        <div class="step-title">Open Claude.ai</div>
+        <p class="step-desc">Go to <strong>claude.ai</strong> in your browser. Make sure you're signed in to your account.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-body">
+        <div class="step-title">Find the Connectors menu</div>
+        <p class="step-desc">In the chat input area, look for the <strong>tools icon</strong> (it may appear as a grid or plug symbol). Click it to open the connectors panel.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-body">
+        <div class="step-title">Search for Canva</div>
+        <p class="step-desc">Type "Canva" in the search field. You'll see the official Canva connector appear in the list.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-body">
+        <div class="step-title">Click Connect and authorize</div>
+        <p class="step-desc">Hit <strong>Connect</strong> and follow the Canva login prompt. You're granting Claude permission to read and edit your Canva designs. Log in with the same Canva account that holds your templates.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">5</div>
+      <div class="step-body">
+        <div class="step-title">Confirm the connector is active</div>
+        <p class="step-desc">Once authorized, you'll see a green indicator or a checkmark next to Canva in the tools panel. You're ready to go.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>Good to know</strong>
+    The connector only has access to designs in your own Canva account. It can't see designs shared with you unless they've been copied into your workspace. If you're working from a team template, make a personal copy first.
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-label">
+    <span class="section-num">Step 02</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Learn What the Connector Can Do</h2>
+  <p>The Canva connector gets updated over time, and Claude only knows what tools are actually loaded in your current session. Before you start building, run this prompt to get a live inventory of every available feature — with an example of how to use each one.</p>
+
+  <p>Copy and paste this exactly into Claude:</p>
+
+  <div class="prompt-block">
+    <div class="prompt-header">
+      <span class="prompt-label">Prompt 1 of 2 &nbsp;·&nbsp; Connector Inventory</span>
+      <span class="copy-hint">copy &amp; paste</span>
+    </div>
+    <div class="prompt-body">List all the Canva connector features available in this chat using only the current exposed tool list as a source of truth. Make a bullet point list with a sample prompt for each of the features mentioned in the Canva connector.</div>
+  </div>
+
+  <p>Claude will return a live bullet list of every Canva action it can take, like searching designs, copying templates, editing text, exporting files, and so on, with a sample prompt for each one. This tells you exactly what's possible right now so you're not guessing.</p>
+
+  <div class="connector-note">
+    <strong style="font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: var(--ink);">You'll typically see capabilities like:</strong>
+    <ul>
+      <li>Search and browse your existing Canva designs</li>
+      <li>Copy a design to create a duplicate (the safe way to protect your templates)</li>
+      <li>Open a design and read all its text elements and image slots</li>
+      <li>Replace text content across any page in a design</li>
+      <li>Rename a design and update its title</li>
+      <li>Export a design to PDF, PNG, or other formats</li>
+      <li>Merge multiple designs into a single multi-page file</li>
+    </ul>
+  </div>
+
+  <div class="warn">
+    <strong>One rule that matters</strong>
+    Always work on a <em>duplicate</em> of your template, never the original. Claude will do this for you automatically if you ask, but make it a habit. If a transaction gets committed to the wrong file, there's no undo.
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-label">
+    <span class="section-num">Step 03</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Analyze Your Template</h2>
+  <p>This is the core move. Before Claude can fill in your template, it needs to understand the structure — how many text areas there are, how large each one is, and roughly how many words fit without overflowing the design.</p>
+
+  <p>Share your Canva template link, then run this prompt:</p>
+
+  <div class="prompt-block">
+    <div class="prompt-header">
+      <span class="prompt-label">Prompt 2 of 2 &nbsp;·&nbsp; Template Analysis + Content Fill</span>
+      <span class="copy-hint">copy &amp; paste</span>
+    </div>
+    <div class="prompt-body"><span class="placeholder">[Paste your Canva template link here]</span>
+
+Analyze this template, including the number of words per section.
+
+Ask me questions to replace the text with my own information. Roughly follow the same number of words per section.</div>
+  </div>
+
+  <p>Claude will open the template, map every editable text element, count the approximate words in each field, and then ask you targeted questions to gather your replacement content. You fill in the answers, it fills in the design.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">A</div>
+      <div class="step-body">
+        <div class="step-title">Get your Canva link</div>
+        <p class="step-desc">In Canva, open your template and copy the share link from the top-right Share button. A short link (<code>canva.link/xxxxxxx</code>) or the full design URL both work.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">B</div>
+      <div class="step-body">
+        <div class="step-title">Answer Claude's questions</div>
+        <p class="step-desc">Claude will ask about your content one field at a time — a headline here, a body sentence there. Answer in plain language. It handles the formatting.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">C</div>
+      <div class="step-body">
+        <div class="step-title">Review the previews before saving</div>
+        <p class="step-desc">Claude shows you a thumbnail of the edited design before committing anything. Look it over. If something is off — a word count spilled, a field got scrambled — say so and it will fix it before saving.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">D</div>
+      <div class="step-body">
+        <div class="step-title">Confirm and save</div>
+        <p class="step-desc">Once the preview looks right, tell Claude to save. It commits the changes and hands you an edit link to open the finished design directly in Canva.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 4 — SCALING -->
+  <div class="section-label">
+    <span class="section-num">Scale it</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Turn One Template Into Many Posts</h2>
+  <p>Running the same template ten times in a row is where this workflow gets powerful. Instead of making ten separate Canva files (which clutters your backend), ask Claude to build everything into a single multi-page design — one page per post, all in one file.</p>
+
+  <p>After you've run the template analysis prompt once and understand the structure, try this approach for batch runs:</p>
+
+  <div class="prompt-block">
+    <div class="prompt-header">
+      <span class="prompt-label">Batch Prompt &nbsp;·&nbsp; Multi-page build</span>
+      <span class="copy-hint">optional but recommended</span>
+    </div>
+    <div class="prompt-body"><span class="placeholder">[Paste your Canva template link here]</span>
+
+Duplicate this template once. Then build <span class="placeholder">[number]</span> variations of the design, each on its own page within the same file. Here's the content for each post:
+
+<span class="comment">— Post 1: [your content]
+— Post 2: [your content]
+— Post 3: [your content]
+(continue as needed)</span>
+
+Keep the word count per section consistent with the original template. Show me a preview of each page before committing.</div>
+  </div>
+
+  <h3>What You Get</h3>
+  <div class="output-grid">
+    <div class="output-card"><span class="output-icon">📄</span>One Canva file, multiple pages</div>
+    <div class="output-card"><span class="output-icon">🎨</span>Original template untouched</div>
+    <div class="output-card"><span class="output-icon">👁️</span>Preview before every save</div>
+    <div class="output-card"><span class="output-icon">✏️</span>Text sized to fit each field</div>
+    <div class="output-card"><span class="output-icon">🔗</span>One edit link to open it all</div>
+    <div class="output-card"><span class="output-icon">🗂️</span>Clean backend, no clutter</div>
+  </div>
+
+  <div class="tip">
+    <strong>Doc Rock's Rule</strong>
+    Always ask Claude to duplicate the template before touching it. One command — "duplicate this first, then work on the copy" — keeps your master file safe no matter how many times you run the workflow.
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 5 — TROUBLESHOOTING -->
+  <div class="section-label">
+    <span class="section-num">If Things Go Sideways</span>
+    <div class="section-rule"></div>
+  </div>
+  <h2>Common Fixes</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">!</div>
+      <div class="step-body">
+        <div class="step-title">Claude says it can't find the design</div>
+        <p class="step-desc">Make sure the Canva link points to a design in <em>your</em> account, not one shared from someone else's. Copy it into your workspace first, then share the link.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">!</div>
+      <div class="step-body">
+        <div class="step-title">Text overflows or gets cut off in the preview</div>
+        <p class="step-desc">Tell Claude: "That text is too long — shorten it to fit the same space as the original." It will rewrite and refit. The word count guidance from the analysis prompt helps prevent this in the first place.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">!</div>
+      <div class="step-body">
+        <div class="step-title">The connector isn't responding</div>
+        <p class="step-desc">Try disconnecting and reconnecting Canva from the tools panel. Sometimes the authorization token needs a refresh. If that doesn't fix it, start a new Claude conversation.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">!</div>
+      <div class="step-body">
+        <div class="step-title">Claude edited the original instead of the copy</div>
+        <p class="step-desc">This is why the duplicate step matters. If it happens, check your Canva version history — Canva keeps it under File > Version history — and restore the previous version.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── FOOTER ──────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-logo">AI Summer School</div>
+  <p>Free all summer at <a href="https://www.youtube.com/@docrock">youtube.com/@docrock</a></p>
+  <p style="margin-top: 8px;">Tuesday lessons · Saturday Q&amp;A · Quick Hits every day · No nerd card required.</p>
+</footer>
+
 </body>
 </html>
